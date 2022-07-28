@@ -1,2 +1,2 @@
-.naivesystems-windows\secrets\secrets_analyzer.exe --config_dir=%cd%\.naivesystems-windows
+.naivesystems\secrets\secrets_analyzer_windows.exe --show_results
 PAUSE

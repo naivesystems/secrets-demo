@@ -1,14 +1,19 @@
+OS := $(shell uname -s)
+ARCH := $(shell uname -m)
+
+ifeq ("$(OS)", "Linux")
+	cmd := .naivesystems/secrets/secrets_analyzer_linux --show_results
+else
+	ifeq ($(ARCH), arm64)
+		cmd := .naivesystems/secrets/secrets_analyzer_darwin_arm64 --show_results
+	else
+		cmd := .naivesystems/secrets/secrets_analyzer_darwin_x64 --show_results
+	endif
+endif
+
 all:
 	clang -c demo.cc
 
-.PHONY: check-linux
-check-linux:
-	.naivesystems-linux/secrets/secrets_analyzer --config_dir=${PWD}/.naivesystems-linux
-
-.PHONY: check-darwin-arm64
-check-darwin-arm64:
-	.naivesystems-darwin-arm64/secrets/secrets_analyzer --config_dir=${PWD}/.naivesystems-darwin-arm64
-
-.PHONY: check-darwin-x64
-check-darwin-x64:
-	.naivesystems-darwin-x64/secrets/secrets_analyzer --config_dir=${PWD}/.naivesystems-darwin-x64
+.PHONY: check
+check:
+	$(cmd)
